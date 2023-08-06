@@ -1,0 +1,157 @@
+[gd_scene load_steps=11 format=3 uid="uid://cckfxuv8gw3br"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/SpeedrunEnd.cs" id="1_1m57w"]
+[ext_resource type="Script" path="res://Resources/Scripts/RainbowColorizer.cs" id="2_u6dqm"]
+[ext_resource type="PackedScene" uid="uid://do78sull3bgot" path="res://Resources/Objects/Rocket.tscn" id="3_7nw57"]
+[ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="4_hc1oc"]
+[ext_resource type="PackedScene" uid="uid://c8n7sxg0ctaca" path="res://Resources/Objects/Button.tscn" id="5_sputg"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/SceneController.cs" id="6_l0fu8"]
+[ext_resource type="Script" path="res://Resources/Scripts/Action/GameStopper.cs" id="7_vjx54"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbilh"]
+line_spacing = 6.0
+font = ExtResource("4_hc1oc")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_bmpcf"]
+font = ExtResource("4_hc1oc")
+font_size = 48
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0mbtl"]
+font = ExtResource("4_hc1oc")
+font_size = 48
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpeedrunEnd" type="Node" parent="." node_paths=PackedStringArray("SpeedrunTime")]
+script = ExtResource("1_1m57w")
+SpeedrunTime = NodePath("../SpeedrunTime")
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="RainbowColorizer" type="Node" parent="Background" node_paths=PackedStringArray("ColorizedNode")]
+script = ExtResource("2_u6dqm")
+ColorizedNode = NodePath("../Level")
+Saturation = 0.5
+
+[node name="Level" type="Node2D" parent="Background"]
+
+[node name="PolygonDark" type="Polygon2D" parent="Background/Level"]
+position = Vector2(-8, 8)
+color = Color(0.5, 0.5, 0.5, 1)
+polygon = PackedVector2Array(-127, 289, 49, 297, 48, 205, 115, 94, 260, 84, 367, 30, 606, 48, 734, 94, 943, 64, 1060, 122, 1019, 319, 1087, 393, 1088, 586, 959, 599, 736, 600, 641, 519, 482, 523, 407, 610, 251, 584, 102, 603, 56, 480, 95, 389, 49, 297, -127, 289, -149, 791, 1290, 777, 1283, -95, -137, -100)
+
+[node name="PolygonWhite" type="Polygon2D" parent="Background/Level"]
+polygon = PackedVector2Array(-127, 289, 49, 297, 48, 205, 115, 94, 260, 84, 367, 30, 606, 48, 734, 94, 943, 64, 1060, 122, 1019, 319, 1087, 393, 1088, 586, 959, 599, 736, 600, 641, 519, 482, 523, 407, 610, 251, 584, 102, 603, 56, 480, 95, 389, 49, 297, -127, 289, -149, 791, 1290, 777, 1283, -95, -137, -100)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Background/Level"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background/Level/StaticBody2D"]
+polygon = PackedVector2Array(-127, 289, 49, 297, 48, 205, 115, 94, 260, 84, 367, 30, 606, 48, 734, 94, 943, 64, 1060, 122, 1019, 319, 1087, 393, 1088, 586, 959, 599, 736, 600, 641, 519, 482, 523, 407, 610, 251, 584, 102, 603, 56, 480, 95, 389, 49, 297, -127, 289, -149, 791, 1290, 777, 1283, -95, -137, -100)
+
+[node name="Rocket" parent="Background" instance=ExtResource("3_7nw57")]
+position = Vector2(570, 475)
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -222.0
+offset_top = -130.0
+offset_right = 222.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You've beat
+
+in"
+label_settings = SubResource("LabelSettings_tbilh")
+horizontal_alignment = 1
+
+[node name="SpeedrunTime" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -222.0
+offset_top = -55.0
+offset_right = 222.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "???"
+label_settings = SubResource("LabelSettings_bmpcf")
+horizontal_alignment = 1
+
+[node name="GameName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -222.0
+offset_top = -129.0
+offset_right = 222.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "NOT HORSE PLINKO 2D"
+label_settings = SubResource("LabelSettings_0mbtl")
+horizontal_alignment = 1
+
+[node name="MainMenuButton" parent="." instance=ExtResource("5_sputg")]
+layout_mode = 2
+anchors_preset = 0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 792.0
+offset_top = 108.0
+offset_right = 1051.0
+offset_bottom = 238.0
+
+[node name="Label" parent="MainMenuButton" index="0"]
+text = "Main Menu"
+
+[node name="SceneController" type="Node" parent="MainMenuButton"]
+script = ExtResource("6_l0fu8")
+ScenePath = "res://Resources/Scenes/MainMenu.tscn"
+
+[node name="ExitButton" parent="." instance=ExtResource("5_sputg")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 113.0
+offset_top = 102.0
+offset_right = 372.0
+offset_bottom = 232.0
+grow_horizontal = 1
+
+[node name="Label" parent="ExitButton" index="0"]
+text = "Exit"
+
+[node name="GameStopper" type="Node" parent="ExitButton"]
+script = ExtResource("7_vjx54")
+
+[connection signal="pressed" from="MainMenuButton" to="MainMenuButton/SceneController" method="ChangeScene"]
+[connection signal="pressed" from="ExitButton" to="ExitButton/GameStopper" method="Stop"]
+
+[editable path="MainMenuButton"]
+[editable path="ExitButton"]

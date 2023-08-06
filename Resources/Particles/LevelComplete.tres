@@ -1,0 +1,31 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=5 format=3 uid="uid://1cxcbqa4tcce"]
+
+[ext_resource type="Gradient" uid="uid://c0886qgq72iji" path="res://Resources/Gradients/Rainbow.tres" id="1_m54pm"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lc0r5"]
+gradient = ExtResource("1_m54pm")
+width = 512
+
+[sub_resource type="Curve" id="Curve_yt26f"]
+_data = [Vector2(0, 1), 0.0, -4.78223e-07, 0, 0, Vector2(0.802899, 0.5), -0.678132, -0.678132, 0, 0, Vector2(0.924638, 0.309091), -2.38961, -2.38961, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_iml4a"]
+curve = SubResource("Curve_yt26f")
+
+[resource]
+lifetime_randomness = 0.75
+emission_shape = 3
+emission_box_extents = Vector3(84, 32, 0)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 400.0
+initial_velocity_max = 400.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_iml4a")
+color_ramp = SubResource("GradientTexture1D_lc0r5")

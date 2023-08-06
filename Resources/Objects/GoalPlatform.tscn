@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctmvmiw55dkxd"]
+
+[ext_resource type="Texture2D" uid="uid://bkcogpcxqfc7o" path="res://Resources/Images/goal_platform.png" id="1_3csss"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/CollisionDetector.cs" id="2_er4fo"]
+[ext_resource type="Material" uid="uid://1cxcbqa4tcce" path="res://Resources/Particles/LevelComplete.tres" id="2_ml6vp"]
+[ext_resource type="Script" path="res://Resources/Scripts/Level/Goal.cs" id="3_dofvv"]
+[ext_resource type="Texture2D" uid="uid://0qwc6jjhr444" path="res://Resources/Images/ThrusterParticle.png" id="3_t6pls"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/ParticleController.cs" id="4_0sqsb"]
+[ext_resource type="AudioStream" uid="uid://b04pq2hqt8n84" path="res://Resources/Sounds/good.ogg" id="7_nelii"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dt8wo"]
+size = Vector2(140, 56)
+
+[node name="GoalPlatform" type="Node2D"]
+texture_filter = 1
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = ExtResource("1_3csss")
+
+[node name="Particles" type="GPUParticles2D" parent="."]
+position = Vector2(2, -4)
+emitting = false
+amount = 32
+process_material = ExtResource("2_ml6vp")
+texture = ExtResource("3_t6pls")
+lifetime = 1.5
+script = ExtResource("4_0sqsb")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+max_contacts_reported = 4
+contact_monitor = true
+freeze = true
+freeze_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(2, -4)
+shape = SubResource("RectangleShape2D_dt8wo")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="CollisionDetector" type="Node" parent="."]
+script = ExtResource("2_er4fo")
+ValidMetadata = "Rocket"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Goal" type="Node" parent="."]
+script = ExtResource("3_dofvv")
+
+[node name="Good" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_nelii")
+volume_db = -12.0
+
+[connection signal="body_entered" from="RigidBody2D" to="CollisionDetector" method="OnBodyEntered"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="CollisionDetector" method="queue_free"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="Timer" method="start"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="Good" method="play"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="Particles" method="SetState" binds= [true]]
+[connection signal="timeout" from="Timer" to="Goal" method="Complete"]

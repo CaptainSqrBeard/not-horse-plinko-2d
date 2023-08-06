@@ -1,0 +1,112 @@
+[gd_scene load_steps=14 format=3 uid="uid://do78sull3bgot"]
+
+[ext_resource type="Texture2D" uid="uid://ccl5xlhll4gd1" path="res://Resources/Images/rocket.png" id="1_bcqbw"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/PlayerController.cs" id="1_g6bm2"]
+[ext_resource type="Script" path="res://Resources/Scripts/Physics/Thruster.cs" id="3_vp3o8"]
+[ext_resource type="Script" path="res://Resources/Scripts/Physics/Rotator.cs" id="4_51bwn"]
+[ext_resource type="Material" uid="uid://brytq76m22qn7" path="res://Resources/Particles/Thruster.tres" id="4_c7imr"]
+[ext_resource type="Texture2D" uid="uid://0qwc6jjhr444" path="res://Resources/Images/ThrusterParticle.png" id="4_c85ui"]
+[ext_resource type="Material" uid="uid://cbxsrckncmfuw" path="res://Resources/Particles/RocketExplosion.tres" id="7_8d6v7"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/ParticleController.cs" id="7_ry6bf"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/RestartController.cs" id="10_o51xp"]
+[ext_resource type="AudioStream" uid="uid://byhcu53vcjdmv" path="res://Resources/Sounds/boom.ogg" id="11_2arft"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/CollisionDetector.cs" id="11_v284a"]
+[ext_resource type="AudioStream" uid="uid://c5w3kprtgdfyu" path="res://Resources/Sounds/fly.ogg" id="12_lvw75"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v8pn3"]
+radius = 34.3657
+
+[node name="Rocket" type="RigidBody2D"]
+texture_filter = 1
+max_contacts_reported = 4
+contact_monitor = true
+lock_rotation = true
+metadata/Rocket = true
+
+[node name="Destroyable" type="Node2D" parent="."]
+
+[node name="Thruster" type="AudioStreamPlayer" parent="Destroyable"]
+stream = ExtResource("12_lvw75")
+
+[node name="PlayerControl" type="Node" parent="Destroyable"]
+script = ExtResource("1_g6bm2")
+
+[node name="Sprite" type="Sprite2D" parent="Destroyable"]
+position = Vector2(-2, 0)
+scale = Vector2(4, 4)
+texture = ExtResource("1_bcqbw")
+
+[node name="Thruster" type="Node2D" parent="Destroyable/Sprite" node_paths=PackedStringArray("Body")]
+position = Vector2(0.5, 6.5)
+scale = Vector2(0.25, 0.25)
+script = ExtResource("3_vp3o8")
+Body = NodePath("../../..")
+Force = 1500.0
+
+[node name="Gyroscope" type="Node2D" parent="Destroyable/Sprite" node_paths=PackedStringArray("Node")]
+position = Vector2(0.5, 0)
+scale = Vector2(0.25, 0.25)
+script = ExtResource("4_51bwn")
+Node = NodePath("..")
+Torque = 5.0
+
+[node name="ParticleEmitter" type="GPUParticles2D" parent="Destroyable/Sprite"]
+position = Vector2(0.5, 6.5)
+scale = Vector2(0.25, 0.25)
+emitting = false
+amount = 48
+process_material = ExtResource("4_c7imr")
+texture = ExtResource("4_c85ui")
+lifetime = 0.75
+script = ExtResource("7_ry6bf")
+
+[node name="CollisionRocket" type="CollisionPolygon2D" parent="Destroyable/Sprite"]
+position = Vector2(0.5, 0)
+scale = Vector2(0.25, 0.25)
+polygon = PackedVector2Array(-12, -34, -12, 2, -20, 2, -20, 30, -8, 30, -8, 26, 8, 26, 8, 30, 20, 30, 20, 2, 12, 2, 12, -34)
+disabled = true
+
+[node name="CollisionCircle" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_v8pn3")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(0.25, 0.25)
+emitting = false
+amount = 98
+process_material = ExtResource("7_8d6v7")
+texture = ExtResource("4_c85ui")
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("7_ry6bf")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RestartControl" type="Node" parent="."]
+script = ExtResource("10_o51xp")
+
+[node name="CollisionDetector" type="Node" parent="."]
+script = ExtResource("11_v284a")
+ValidMetadata = "KillerWall"
+
+[node name="Boom" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_2arft")
+volume_db = -12.0
+
+[connection signal="body_entered" from="." to="CollisionDetector" method="OnBodyEntered"]
+[connection signal="Left" from="Destroyable/PlayerControl" to="Destroyable/Sprite/Gyroscope" method="Left"]
+[connection signal="Right" from="Destroyable/PlayerControl" to="Destroyable/Sprite/Gyroscope" method="Right"]
+[connection signal="Up" from="Destroyable/PlayerControl" to="Destroyable/Sprite/Thruster" method="Forward"]
+[connection signal="UpStart" from="Destroyable/PlayerControl" to="Destroyable/Thruster" method="play"]
+[connection signal="UpStart" from="Destroyable/PlayerControl" to="Destroyable/Sprite/ParticleEmitter" method="SetState" binds= [true]]
+[connection signal="UpStop" from="Destroyable/PlayerControl" to="Destroyable/Thruster" method="stop"]
+[connection signal="UpStop" from="Destroyable/PlayerControl" to="Destroyable/Sprite/ParticleEmitter" method="SetState" binds= [false]]
+[connection signal="timeout" from="Timer" to="RestartControl" method="Restart"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="Destroyable" method="queue_free"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="CollisionCircle" method="queue_free"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="Timer" method="start"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="CollisionDetector" method="queue_free"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="Boom" method="play"]
+[connection signal="OnValidCollision" from="CollisionDetector" to="DeathParticles" method="SetState" binds= [true]]
