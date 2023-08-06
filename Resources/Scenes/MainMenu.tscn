@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dtqvnt0hbokx0"]
+[gd_scene load_steps=11 format=3 uid="uid://dtqvnt0hbokx0"]
 
 [ext_resource type="PackedScene" uid="uid://c8n7sxg0ctaca" path="res://Resources/Objects/Button.tscn" id="1_3434k"]
 [ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="1_q41n4"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/SceneController.cs" id="4_alm0o"]
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/SpeedrunModeController.cs" id="6_3ey5q"]
 [ext_resource type="Script" path="res://Resources/Scripts/Action/GameStopper.cs" id="6_q3rpf"]
+[ext_resource type="Script" path="res://Resources/Scripts/Action/Shell.cs" id="6_u5ugj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0mbtl"]
 font = ExtResource("1_q41n4")
@@ -115,11 +116,29 @@ offset_right = 341.0
 offset_bottom = -75.0
 
 [node name="Label" parent="PlayButton" index="0"]
-text = "Play"
+text = "New Game"
 
 [node name="SceneController" type="Node" parent="PlayButton"]
 script = ExtResource("4_alm0o")
 ScenePath = "res://Resources/Scenes/Level1.scn"
+
+[node name="OldGameButton" parent="." instance=ExtResource("1_3434k")]
+layout_mode = 2
+anchors_preset = 0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 873.0
+offset_top = 174.0
+offset_right = 1132.0
+offset_bottom = 304.0
+
+[node name="Label" parent="OldGameButton" index="0"]
+text = "Old Game"
+
+[node name="Shell" type="Node" parent="OldGameButton"]
+script = ExtResource("6_u5ugj")
+Link = "https://www.maxthetomas.ru/games/not-horse-plinko"
 
 [node name="SpeedrunButton" parent="." instance=ExtResource("1_3434k")]
 layout_mode = 1
@@ -160,10 +179,12 @@ text = "Exit"
 script = ExtResource("6_q3rpf")
 
 [connection signal="pressed" from="PlayButton" to="PlayButton/SceneController" method="ChangeScene"]
+[connection signal="pressed" from="OldGameButton" to="OldGameButton/Shell" method="Activate"]
 [connection signal="button_down" from="SpeedrunButton" to="SpeedrunButton/SpeedrunModeController" method="Enable"]
 [connection signal="button_up" from="SpeedrunButton" to="SpeedrunButton/SpeedrunModeController" method="Disable"]
 [connection signal="pressed" from="ExitButton" to="ExitButton/GameStopper" method="Stop"]
 
 [editable path="PlayButton"]
+[editable path="OldGameButton"]
 [editable path="SpeedrunButton"]
 [editable path="ExitButton"]
