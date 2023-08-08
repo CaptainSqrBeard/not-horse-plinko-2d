@@ -122,6 +122,23 @@ text = "New Game"
 script = ExtResource("4_alm0o")
 ScenePath = "res://Resources/Scenes/Level1.scn"
 
+[node name="Note" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.597
+anchor_top = 0.292
+anchor_right = 0.597
+anchor_bottom = 0.292
+offset_left = 188.256
+offset_top = 282.784
+offset_right = 442.256
+offset_bottom = 344.784
+grow_horizontal = 2
+grow_vertical = 2
+text = "Also play original one!"
+label_settings = SubResource("LabelSettings_otlk0")
+horizontal_alignment = 1
+
 [node name="OldGameButton" parent="." instance=ExtResource("1_3434k")]
 layout_mode = 2
 anchors_preset = 0
