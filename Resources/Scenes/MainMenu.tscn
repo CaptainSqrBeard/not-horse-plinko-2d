@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dtqvnt0hbokx0"]
+[gd_scene load_steps=16 format=3 uid="uid://dtqvnt0hbokx0"]
 
 [ext_resource type="PackedScene" uid="uid://c8n7sxg0ctaca" path="res://Resources/Objects/Button.tscn" id="1_3434k"]
 [ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="1_q41n4"]
@@ -6,9 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://do78sull3bgot" path="res://Resources/Objects/Rocket.tscn" id="1_sair1"]
 [ext_resource type="Script" path="res://Resources/Scripts/RainbowColorizer.cs" id="1_wttmo"]
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/SceneController.cs" id="4_alm0o"]
-[ext_resource type="Script" path="res://Resources/Scripts/Controllers/SpeedrunModeController.cs" id="6_3ey5q"]
 [ext_resource type="Script" path="res://Resources/Scripts/Action/GameStopper.cs" id="6_q3rpf"]
 [ext_resource type="Script" path="res://Resources/Scripts/Action/Shell.cs" id="6_u5ugj"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/Settings/FirstAttemptController.cs" id="8_h8xpu"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/Settings/SpeedrunModeController.cs" id="8_yj5le"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/ToggleButtonSignals.cs" id="9_nypfn"]
 [ext_resource type="PackedScene" uid="uid://coxldfb5df4g2" path="res://Resources/Objects/RespawnPoint.tscn" id="10_55my7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0mbtl"]
@@ -172,6 +174,30 @@ text = "Old Game"
 script = ExtResource("6_u5ugj")
 Link = "https://www.maxthetomas.ru/games/not-horse-plinko"
 
+[node name="FirstAttempt" parent="." instance=ExtResource("1_3434k")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -65.0
+offset_right = -21.0
+offset_bottom = 65.0
+grow_horizontal = 0
+toggle_mode = true
+
+[node name="Label" parent="FirstAttempt" index="0"]
+text = "First Try
+"
+
+[node name="FirstAttemptController" type="Node" parent="FirstAttempt" node_paths=PackedStringArray("Button")]
+script = ExtResource("8_h8xpu")
+Button = NodePath("..")
+
+[node name="ToggleButtonSignals" type="Node" parent="FirstAttempt"]
+script = ExtResource("9_nypfn")
+
 [node name="SpeedrunButton" parent="." instance=ExtResource("1_3434k")]
 layout_mode = 1
 anchors_preset = -1
@@ -190,8 +216,11 @@ toggle_mode = true
 text = "Speedrun"
 
 [node name="SpeedrunModeController" type="Node" parent="SpeedrunButton" node_paths=PackedStringArray("Button")]
-script = ExtResource("6_3ey5q")
+script = ExtResource("8_yj5le")
 Button = NodePath("..")
+
+[node name="ToggleButtonSignals" type="Node" parent="SpeedrunButton"]
+script = ExtResource("9_nypfn")
 
 [node name="ExitButton" parent="." instance=ExtResource("1_3434k")]
 layout_mode = 1
@@ -216,11 +245,16 @@ position = Vector2(713, 459)
 
 [connection signal="pressed" from="PlayButton" to="PlayButton/SceneController" method="ChangeScene"]
 [connection signal="pressed" from="OldGameButton" to="OldGameButton/Shell" method="Activate"]
-[connection signal="button_down" from="SpeedrunButton" to="SpeedrunButton/SpeedrunModeController" method="Enable"]
-[connection signal="button_up" from="SpeedrunButton" to="SpeedrunButton/SpeedrunModeController" method="Disable"]
+[connection signal="toggled" from="FirstAttempt" to="FirstAttempt/ToggleButtonSignals" method="Toggle"]
+[connection signal="OnDisable" from="FirstAttempt/ToggleButtonSignals" to="FirstAttempt/FirstAttemptController" method="SetValue" binds= [false]]
+[connection signal="OnEnable" from="FirstAttempt/ToggleButtonSignals" to="FirstAttempt/FirstAttemptController" method="SetValue" binds= [true]]
+[connection signal="toggled" from="SpeedrunButton" to="SpeedrunButton/ToggleButtonSignals" method="Toggle"]
+[connection signal="OnDisable" from="SpeedrunButton/ToggleButtonSignals" to="SpeedrunButton/SpeedrunModeController" method="Disable"]
+[connection signal="OnEnable" from="SpeedrunButton/ToggleButtonSignals" to="SpeedrunButton/SpeedrunModeController" method="Enable"]
 [connection signal="pressed" from="ExitButton" to="ExitButton/GameStopper" method="Stop"]
 
 [editable path="PlayButton"]
 [editable path="OldGameButton"]
+[editable path="FirstAttempt"]
 [editable path="SpeedrunButton"]
 [editable path="ExitButton"]

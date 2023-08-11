@@ -14,6 +14,11 @@ public partial class LevelManager : Node
 	SceneTransition _sceneTransition;
 	SpeedrunManager _speedrunManager;
     EventBus _eventBus;
+	SettingsManager _settings;
+
+    PackedScene FirstLevel;
+
+    const string FIRST_LEVEL_PATH = "res://Resources/Scenes/Level1.scn";
 
     //const string RocketResourcePath = "res://Resources/Objects/Rocket.tscn";
     //Node2D Rocket;
@@ -24,8 +29,11 @@ public partial class LevelManager : Node
 		_sceneTransition = GetNode<SceneTransition>("/root/SceneTransition");
 		_speedrunManager = GetNode<SpeedrunManager>("/root/SpeedrunManager");
 		_eventBus = GetNode<EventBus>("/root/EventBus");
+		_settings = GetNode<SettingsManager>("/root/SettingsManager");
 
         _speedrunManager.StartTimer();
+
+        FirstLevel = ResourceLoader.Load<PackedScene>(FIRST_LEVEL_PATH);
 
         _eventBus.Connect(EventBus.SignalName.OnPlayerDestroy, Callable.From(BeginRestartLevel));
         _eventBus.Connect(EventBus.SignalName.OnGoal, Callable.From(BeginCompleteLevel));
@@ -61,8 +69,16 @@ public partial class LevelManager : Node
     public void RestartLevel()
     {
         CurrentLevelState = LevelState.FAILED;
-        _sceneTransition.StartTransition(_sceneTransition.CurrentScene, "TransitionInFast", "TransitionOutFast");
-        //_sceneTransition.StartTransition(_sceneTransition.CurrentScene);
+
+        if (_settings.FirstAttempt)
+        {
+            _speedrunManager.Finish();
+            _sceneTransition.StartTransition(FirstLevel, "TransitionInFast", "TransitionOutFast");
+        }
+        else
+        {
+            _sceneTransition.StartTransition(_sceneTransition.CurrentScene, "TransitionInFast", "TransitionOutFast");
+        }
     }
 
     public enum LevelState

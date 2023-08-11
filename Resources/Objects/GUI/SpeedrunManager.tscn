@@ -29,8 +29,9 @@ text = "00:00:00.000"
 label_settings = SubResource("LabelSettings_5y16b")
 
 [node name="Version" type="Label" parent="Label"]
+layout_mode = 0
 offset_top = 28.0
 offset_right = 144.0
 offset_bottom = 65.0
-text = "v1.0.2"
+text = "v1.0.3"
 label_settings = SubResource("LabelSettings_b5fx3")

@@ -107,7 +107,7 @@ public partial class SpeedrunManager : Node
 
     public void DisableSpeedrunMode()
     {
-        SpeedrunMode = true;
+        SpeedrunMode = false;
         if (TimerRunning)
         {
             TimerLabel.Visible = false;

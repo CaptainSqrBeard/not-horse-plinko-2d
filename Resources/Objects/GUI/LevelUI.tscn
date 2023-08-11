@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpocc2nnxm00d"]
+[gd_scene load_steps=6 format=3 uid="uid://dpocc2nnxm00d"]
 
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/LevelUIController.cs" id="1_00ssa"]
-[ext_resource type="PackedScene" uid="uid://deif4xwsce8ux" path="res://Resources/Objects/SmallButton.tscn" id="1_y7eeq"]
+[ext_resource type="Texture2D" uid="uid://drc8bbf4p523p" path="res://Resources/Images/exit_button.png" id="2_x5jub"]
+[ext_resource type="Texture2D" uid="uid://coa7lgrl0k3et" path="res://Resources/Images/exit_button_pressed.png" id="3_7vby2"]
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/SceneController.cs" id="3_84t61"]
+[ext_resource type="Script" path="res://Resources/Scripts/ButtonVisuals.cs" id="4_p6qcr"]
 
 [node name="LevelUI" type="CanvasLayer"]
 
@@ -10,24 +12,29 @@
 script = ExtResource("1_00ssa")
 UINode = NodePath("..")
 
-[node name="Button" parent="." instance=ExtResource("1_y7eeq")]
+[node name="Button" type="TextureButton" parent="."]
+texture_filter = 1
 anchors_preset = 1
 anchor_left = 1.0
-anchor_bottom = 0.0
+anchor_right = 1.0
 offset_left = -108.0
 offset_top = 16.0
 offset_right = -9.0
 offset_bottom = 94.0
 grow_horizontal = 0
-grow_vertical = 1
+focus_mode = 0
+texture_normal = ExtResource("2_x5jub")
+texture_pressed = ExtResource("3_7vby2")
+stretch_mode = 5
 
-[node name="Label" parent="Button" index="0"]
-text = "M"
+[node name="ButtonVisuals" type="Node" parent="Button" node_paths=PackedStringArray("Button", "ButtonLabel")]
+script = ExtResource("4_p6qcr")
+Button = NodePath("..")
+ButtonLabel = NodePath("")
 
 [node name="SceneController" type="Node" parent="Button"]
 script = ExtResource("3_84t61")
 ScenePath = "res://Resources/Scenes/MainMenu.tscn"
 
+[connection signal="draw" from="Button" to="Button/ButtonVisuals" method="Draw" flags=18]
 [connection signal="pressed" from="Button" to="Button/SceneController" method="ChangeScene"]
-
-[editable path="Button"]

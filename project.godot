@@ -21,6 +21,7 @@ config/windows_native_icon="res://Resources/Images/icon.ico"
 [autoload]
 
 EventBus="*res://Resources/Scripts/EventBus.cs"
+SettingsManager="*res://Resources/Scripts/Managers/SettingsManager.cs"
 LevelUI="*res://Resources/Objects/GUI/LevelUI.tscn"
 SceneTransition="*res://Resources/Objects/SceneTransition.tscn"
 SpeedrunManager="*res://Resources/Objects/GUI/SpeedrunManager.tscn"

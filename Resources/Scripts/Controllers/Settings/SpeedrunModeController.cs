@@ -15,10 +15,12 @@ public partial class SpeedrunModeController : Node
 	public void Enable()
 	{
 		_speedrunManager.EnableSpeedrunMode();
+		GD.Print($"enable");
 	}
 	
 	public void Disable()
 	{
 		_speedrunManager.DisableSpeedrunMode();
+		GD.Print($"disable");
 	}
 }
