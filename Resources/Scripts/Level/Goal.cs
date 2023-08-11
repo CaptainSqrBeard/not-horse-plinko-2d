@@ -3,20 +3,16 @@ using System;
 
 public partial class Goal : Node
 {
-	LevelManager _levelManager;
+	EventBus _eventBus;
 
 	public override void _Ready()
-	{
-		_levelManager = GetTree().CurrentScene.GetNode<LevelManager>("LevelManager");
-		if (_levelManager == null)
-		{
-			GD.PushWarning("Goal has no LevelManager!");
-			QueueFree();
-		}
+    {
+		_eventBus = GetNode<EventBus>("/root/EventBus");
 	}
 
 	public void Complete()
 	{
-		_levelManager.CompleteLevel();
+		_eventBus.EmitSignal(EventBus.SignalName.OnGoal);
 	}
 }
+

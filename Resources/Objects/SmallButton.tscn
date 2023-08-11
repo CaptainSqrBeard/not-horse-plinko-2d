@@ -1,12 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8n7sxg0ctaca"]
+[gd_scene load_steps=6 format=3 uid="uid://deif4xwsce8ux"]
 
-[ext_resource type="Texture2D" uid="uid://kd705xdoj850" path="res://Resources/Images/button.png" id="1_upb2v"]
-[ext_resource type="Texture2D" uid="uid://cgayoq0dqekeq" path="res://Resources/Images/button_pressed.png" id="2_cwuys"]
-[ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="3_qwned"]
-[ext_resource type="Script" path="res://Resources/Scripts/ButtonVisuals.cs" id="4_uuvya"]
+[ext_resource type="Texture2D" uid="uid://drbf0rxm03rji" path="res://Resources/Images/small_button.png" id="1_37p27"]
+[ext_resource type="Texture2D" uid="uid://bjpanjd8miqt4" path="res://Resources/Images/small_button_pressed.png" id="2_yonfb"]
+[ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="3_uxgpw"]
+[ext_resource type="Script" path="res://Resources/Scripts/ButtonVisuals.cs" id="4_clc5b"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qnsc0"]
-font = ExtResource("3_qwned")
+font = ExtResource("3_uxgpw")
 font_size = 48
 font_color = Color(0.25, 0.25, 0.25, 1)
 
@@ -15,11 +15,12 @@ texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -522.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-texture_normal = ExtResource("1_upb2v")
-texture_pressed = ExtResource("2_cwuys")
+texture_normal = ExtResource("1_37p27")
+texture_pressed = ExtResource("2_yonfb")
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="."]
@@ -41,7 +42,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ButtonVisuals" type="Node" parent="." node_paths=PackedStringArray("Button", "ButtonLabel")]
-script = ExtResource("4_uuvya")
+script = ExtResource("4_clc5b")
 Button = NodePath("..")
 ButtonLabel = NodePath("../Label")
 

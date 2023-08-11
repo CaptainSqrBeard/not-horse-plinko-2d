@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwtb6ese2fuff"]
+[gd_scene load_steps=5 format=3 uid="uid://dwtb6ese2fuff"]
 
 [ext_resource type="Script" path="res://Resources/Scripts/Managers/SpeedrunManager.cs" id="1_6qo8m"]
 [ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="2_yqyvh"]
@@ -10,15 +10,27 @@ font_color = Color(1, 0, 0, 1)
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_b5fx3"]
+font = ExtResource("2_yqyvh")
+font_size = 24
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
 [node name="SpeedrunManager" type="CanvasLayer" node_paths=PackedStringArray("TimerLabel")]
 script = ExtResource("1_6qo8m")
 TimerLabel = NodePath("Label")
 
 [node name="Label" type="Label" parent="."]
-visible = false
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 124.0
-offset_bottom = 53.0
-text = "??:??:??"
+offset_left = 14.0
+offset_top = 11.0
+offset_right = 158.0
+offset_bottom = 48.0
+text = "00:00:00.000"
 label_settings = SubResource("LabelSettings_5y16b")
+
+[node name="Version" type="Label" parent="Label"]
+offset_top = 28.0
+offset_right = 144.0
+offset_bottom = 65.0
+text = "v1.0.2"
+label_settings = SubResource("LabelSettings_b5fx3")

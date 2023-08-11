@@ -7,9 +7,4 @@ public partial class ParticleController : GpuParticles2D
 	{
 		Emitting = state;
 	}
-	public void Shoot()
-	{
-		Emitting = true;
-		Emitting = false;
-	}
 }

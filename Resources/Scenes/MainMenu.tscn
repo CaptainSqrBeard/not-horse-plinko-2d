@@ -1,13 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://dtqvnt0hbokx0"]
+[gd_scene load_steps=15 format=3 uid="uid://dtqvnt0hbokx0"]
 
 [ext_resource type="PackedScene" uid="uid://c8n7sxg0ctaca" path="res://Resources/Objects/Button.tscn" id="1_3434k"]
+[ext_resource type="Script" path="res://Resources/Scripts/Action/ControlVisibilitySwap.cs" id="1_pp0uk"]
 [ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="1_q41n4"]
+[ext_resource type="Script" path="res://Resources/Scripts/TimerRefresh.cs" id="1_rfutc"]
 [ext_resource type="PackedScene" uid="uid://do78sull3bgot" path="res://Resources/Objects/Rocket.tscn" id="1_sair1"]
 [ext_resource type="Script" path="res://Resources/Scripts/RainbowColorizer.cs" id="1_wttmo"]
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/SceneController.cs" id="4_alm0o"]
 [ext_resource type="Script" path="res://Resources/Scripts/Controllers/SpeedrunModeController.cs" id="6_3ey5q"]
 [ext_resource type="Script" path="res://Resources/Scripts/Action/GameStopper.cs" id="6_q3rpf"]
 [ext_resource type="Script" path="res://Resources/Scripts/Action/Shell.cs" id="6_u5ugj"]
+[ext_resource type="PackedScene" uid="uid://coxldfb5df4g2" path="res://Resources/Objects/RespawnPoint.tscn" id="10_55my7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0mbtl"]
 font = ExtResource("1_q41n4")
@@ -17,6 +20,10 @@ font_size = 48
 font = ExtResource("1_q41n4")
 font_size = 32
 
+[sub_resource type="LabelSettings" id="LabelSettings_d2sgq"]
+font = ExtResource("1_q41n4")
+font_size = 24
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -24,6 +31,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VisibilitySwapper" type="Node" parent="."]
+script = ExtResource("1_pp0uk")
+
+[node name="TimerRefresh" type="Node" parent="."]
+script = ExtResource("1_rfutc")
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -50,57 +63,80 @@ polygon = PackedVector2Array(-127, 289, 49, 297, 95, 100, 296, 55, 509, 97, 689,
 [node name="Rocket" parent="Background" instance=ExtResource("1_sair1")]
 position = Vector2(713, 532)
 
-[node name="GameName" type="Label" parent="."]
+[node name="Text" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameName" type="Label" parent="Text"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.597
 anchor_top = 0.292
 anchor_right = 0.597
 anchor_bottom = 0.292
-offset_left = -221.744
-offset_top = -27.216
-offset_right = 222.256
-offset_bottom = 26.784
+offset_left = 442.12
+offset_top = 150.32
+offset_right = 886.12
+offset_bottom = 204.32
 grow_horizontal = 2
 grow_vertical = 2
 text = "NOT HORSE PLINKO 2D"
 label_settings = SubResource("LabelSettings_0mbtl")
 horizontal_alignment = 1
 
-[node name="Credits" type="Label" parent="."]
+[node name="Credits" type="Label" parent="Text"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.597
 anchor_top = 0.292
 anchor_right = 0.597
 anchor_bottom = 0.292
-offset_left = -220.744
-offset_top = 20.784
-offset_right = 223.256
-offset_bottom = 74.784
+offset_left = 443.12
+offset_top = 198.32
+offset_right = 887.12
+offset_bottom = 252.32
 grow_horizontal = 2
 grow_vertical = 2
 text = "By CSQRB"
 label_settings = SubResource("LabelSettings_otlk0")
 horizontal_alignment = 1
 
-[node name="Controls" type="Label" parent="."]
+[node name="Controls" type="Label" parent="Text"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.597
 anchor_top = 0.292
 anchor_right = 0.597
 anchor_bottom = 0.292
-offset_left = -220.744
-offset_top = 91.784
-offset_right = 223.256
-offset_bottom = 239.784
+offset_left = 443.12
+offset_top = 253.32
+offset_right = 887.12
+offset_bottom = 438.32
 grow_horizontal = 2
 grow_vertical = 2
 text = "CONTROLS
 W, Space, Up - Thruster
 A, Left - Rotate left
-D, Right - Rotate right"
+D, Right - Rotate right
+R - Self-destruction"
+label_settings = SubResource("LabelSettings_d2sgq")
+horizontal_alignment = 1
+
+[node name="Note" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.597
+anchor_top = 0.292
+anchor_right = 0.597
+anchor_bottom = 0.292
+offset_left = 188.256
+offset_top = 282.784
+offset_right = 442.256
+offset_bottom = 344.784
+grow_horizontal = 2
+grow_vertical = 2
+text = "Also play original one!"
 label_settings = SubResource("LabelSettings_otlk0")
 horizontal_alignment = 1
 
@@ -121,23 +157,6 @@ text = "New Game"
 [node name="SceneController" type="Node" parent="PlayButton"]
 script = ExtResource("4_alm0o")
 ScenePath = "res://Resources/Scenes/Level1.scn"
-
-[node name="Note" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.597
-anchor_top = 0.292
-anchor_right = 0.597
-anchor_bottom = 0.292
-offset_left = 188.256
-offset_top = 282.784
-offset_right = 442.256
-offset_bottom = 344.784
-grow_horizontal = 2
-grow_vertical = 2
-text = "Also play original one!"
-label_settings = SubResource("LabelSettings_otlk0")
-horizontal_alignment = 1
 
 [node name="OldGameButton" parent="." instance=ExtResource("1_3434k")]
 layout_mode = 2
@@ -174,8 +193,9 @@ toggle_mode = true
 [node name="Label" parent="SpeedrunButton" index="0"]
 text = "Speedrun"
 
-[node name="SpeedrunModeController" type="Node" parent="SpeedrunButton"]
+[node name="SpeedrunModeController" type="Node" parent="SpeedrunButton" node_paths=PackedStringArray("Button")]
 script = ExtResource("6_3ey5q")
+Button = NodePath("..")
 
 [node name="ExitButton" parent="." instance=ExtResource("1_3434k")]
 layout_mode = 1
@@ -194,6 +214,9 @@ text = "Exit"
 
 [node name="GameStopper" type="Node" parent="ExitButton"]
 script = ExtResource("6_q3rpf")
+
+[node name="RespawnPoint" parent="." instance=ExtResource("10_55my7")]
+position = Vector2(713, 459)
 
 [connection signal="pressed" from="PlayButton" to="PlayButton/SceneController" method="ChangeScene"]
 [connection signal="pressed" from="OldGameButton" to="OldGameButton/Shell" method="Activate"]

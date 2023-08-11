@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cftxdve3bgrup"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/Managers/LevelManager.cs" id="1_7cgi6"]
+
+[node name="LevelManager" type="Node"]
+script = ExtResource("1_7cgi6")
+
+[node name="LevelCompleteTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="RestartTimer" type="Timer" parent="."]
+wait_time = 0.75
+one_shot = true
+
+[connection signal="OnLevelComplete" from="." to="LevelCompleteTimer" method="start"]
+[connection signal="OnLevelRestart" from="." to="LevelCompleteTimer" method="stop"]
+[connection signal="OnLevelRestart" from="." to="RestartTimer" method="start"]
+[connection signal="timeout" from="LevelCompleteTimer" to="." method="CompleteLevel"]
+[connection signal="timeout" from="RestartTimer" to="." method="RestartLevel"]

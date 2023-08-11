@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cckfxuv8gw3br"]
+[gd_scene load_steps=12 format=3 uid="uid://cckfxuv8gw3br"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/SpeedrunEnd.cs" id="1_1m57w"]
+[ext_resource type="Script" path="res://Resources/Scripts/TimerRefresh.cs" id="1_1nhtk"]
+[ext_resource type="PackedScene" uid="uid://coxldfb5df4g2" path="res://Resources/Objects/RespawnPoint.tscn" id="2_4ap7s"]
 [ext_resource type="Script" path="res://Resources/Scripts/RainbowColorizer.cs" id="2_u6dqm"]
 [ext_resource type="PackedScene" uid="uid://do78sull3bgot" path="res://Resources/Objects/Rocket.tscn" id="3_7nw57"]
 [ext_resource type="FontFile" uid="uid://blsiii5e8afcm" path="res://Resources/Fonts/ComicSansMSPixel.ttf" id="4_hc1oc"]
@@ -33,8 +34,11 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SpeedrunEnd" type="Node" parent="." node_paths=PackedStringArray("SpeedrunTime")]
-script = ExtResource("1_1m57w")
+script = ExtResource("1_1nhtk")
 SpeedrunTime = NodePath("../SpeedrunTime")
+
+[node name="RespawnPoint" parent="." instance=ExtResource("2_4ap7s")]
+position = Vector2(570, 400)
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -59,7 +63,7 @@ polygon = PackedVector2Array(-127, 289, 49, 297, 48, 205, 115, 94, 260, 84, 367,
 polygon = PackedVector2Array(-127, 289, 49, 297, 48, 205, 115, 94, 260, 84, 367, 30, 606, 48, 734, 94, 943, 64, 1060, 122, 1019, 319, 1087, 393, 1088, 586, 959, 599, 736, 600, 641, 519, 482, 523, 407, 610, 251, 584, 102, 603, 56, 480, 95, 389, 49, 297, -127, 289, -149, 791, 1290, 777, 1283, -95, -137, -100)
 
 [node name="Rocket" parent="Background" instance=ExtResource("3_7nw57")]
-position = Vector2(570, 475)
+position = Vector2(570, 488)
 
 [node name="Text" type="Label" parent="."]
 layout_mode = 1
@@ -110,7 +114,7 @@ offset_right = 222.0
 offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "NOT HORSE PLINKO 2D"
+text = "NOT HORSE PLINKO 2D v1.0.2"
 label_settings = SubResource("LabelSettings_0mbtl")
 horizontal_alignment = 1
 

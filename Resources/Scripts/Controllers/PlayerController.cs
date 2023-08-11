@@ -9,6 +9,9 @@ public partial class PlayerController : Node
 
 	[Signal] public delegate void LeftEventHandler();
 	[Signal] public delegate void RightEventHandler();
+	
+	[Signal] public delegate void ExplodeEventHandler();
+
 
 	bool _upPreviousState;
 
@@ -39,5 +42,7 @@ public partial class PlayerController : Node
 
 		if (Input.IsActionPressed("Left")) EmitSignal(SignalName.Left);
 		if (Input.IsActionPressed("Right")) EmitSignal(SignalName.Right);
+		
+		if (Input.IsActionPressed("Explode")) EmitSignal(SignalName.Explode);
 	}
 }

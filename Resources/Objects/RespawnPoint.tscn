@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://coxldfb5df4g2"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/Level/RespawnPoint.cs" id="1_835e4"]
+[ext_resource type="PackedScene" uid="uid://do78sull3bgot" path="res://Resources/Objects/Rocket.tscn" id="2_h5ru5"]
+[ext_resource type="Material" uid="uid://cxhkbj6uyslhu" path="res://Resources/Particles/Respawning.tres" id="3_by3pg"]
+[ext_resource type="Texture2D" uid="uid://0qwc6jjhr444" path="res://Resources/Images/ThrusterParticle.png" id="4_6o8i4"]
+[ext_resource type="Script" path="res://Resources/Scripts/Controllers/ParticleController.cs" id="5_5nr13"]
+[ext_resource type="Material" uid="uid://b40bhf0ggtsgd" path="res://Resources/Particles/Respawned.tres" id="6_extmn"]
+
+[node name="RespawnPoint" type="Node2D"]
+script = ExtResource("1_835e4")
+RespawnPlayer = ExtResource("2_h5ru5")
+
+[node name="RespawningParticle" type="GPUParticles2D" parent="."]
+texture_filter = 1
+emitting = false
+process_material = ExtResource("3_by3pg")
+texture = ExtResource("4_6o8i4")
+script = ExtResource("5_5nr13")
+
+[node name="RespawnedParticle" type="GPUParticles2D" parent="."]
+texture_filter = 1
+emitting = false
+amount = 48
+process_material = ExtResource("6_extmn")
+texture = ExtResource("4_6o8i4")
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("5_5nr13")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="OnRespawn" from="." to="Timer" method="start"]
+[connection signal="OnRespawn" from="." to="RespawningParticle" method="SetState" binds= [true]]
+[connection signal="timeout" from="Timer" to="." method="Respawn"]
+[connection signal="timeout" from="Timer" to="RespawningParticle" method="SetState" binds= [false]]
+[connection signal="timeout" from="Timer" to="RespawnedParticle" method="SetState" binds= [true]]

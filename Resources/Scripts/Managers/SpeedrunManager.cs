@@ -10,17 +10,27 @@ public partial class SpeedrunManager : Node
     public bool TimerRunning = false;
 
     public ulong StartTime = 0;
-    public TimeSpan EndTime = new (999, 59, 59);
+    public ulong EndTime = 0;
+    public bool Fresh = true; // If it's true, then timer must reset the next time it start
+    
+	EventBus _eventBus;
 
 	public override void _Ready()
 	{
+		_eventBus = GetNode<EventBus>("/root/EventBus");
+
 		StartTime = Time.GetTicksUsec();
-        //EnableSpeedrunMode();
+        TimerLabel.Visible = SpeedrunMode;
+
+        _eventBus.Connect(EventBus.SignalName.OnGameplayStart, Callable.From(StartTimer));
+        _eventBus.Connect(EventBus.SignalName.OnGameplayEnd, Callable.From(StopTimer));
+        _eventBus.Connect(EventBus.SignalName.TimerRefresh, Callable.From(Finish));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+        // Speedrun Timer - don't process if it's disabled or timer isn't running
         if (!SpeedrunMode || !TimerRunning) return;
 
         var timePassed = Time.GetTicksUsec() - StartTime;
@@ -32,11 +42,25 @@ public partial class SpeedrunManager : Node
 
     public void StartTimer()
     {
+        // Don't start timer while it's already running
         if (TimerRunning) return;
 
-        StartTime = Time.GetTicksUsec();
+        // Reset timer if it's fresh
+        if (Fresh)
+        {
+            StartTime = Time.GetTicksUsec();
+            Fresh = false;
+        }
+        else
+        {
+            var timePassedAfterPause = Time.GetTicksUsec() - EndTime;
+            StartTime -= timePassedAfterPause;
+        }
+        
+        // Enable timer
         TimerRunning = true;
 
+        // Speedrun timer visibility
         if (SpeedrunMode)
         {
             TimerLabel.Visible = true;
@@ -45,16 +69,31 @@ public partial class SpeedrunManager : Node
 
     public void StopTimer()
     {
+        // Don't stop timer if it not running
         if (!TimerRunning) return;
 
+        // Get passed time
         var timePassed = Time.GetTicksUsec() - StartTime;
-        EndTime = new TimeSpan((long) timePassed * 10);
+
+        // Save timer end time if it would re-enable after some time
+        EndTime = Time.GetTicksUsec();
+
+        // Disable timer
         TimerRunning = false;
 
+        // Speedrun timer visibility
         if (SpeedrunMode)
         {
-            TimerLabel.Text = EndTime.ToString("hh\\:mm\\:ss\\.fff");
+            var timeSpan = new TimeSpan((long) timePassed * 10);
+            TimerLabel.Text = timeSpan.ToString("hh\\:mm\\:ss\\.fff");
         }
+    }
+
+    public void Finish()
+    {
+        StopTimer();
+        Fresh = true;
+        TimerLabel.Visible = false;
     }
 
     public void EnableSpeedrunMode()
