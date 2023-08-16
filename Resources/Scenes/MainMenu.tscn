@@ -105,23 +105,6 @@ text = "By CSQRB"
 label_settings = SubResource("LabelSettings_otlk0")
 horizontal_alignment = 1
 
-[node name="Credits" type="Label" parent="Text/Credits"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.597
-anchor_top = 0.292
-anchor_right = 0.597
-anchor_bottom = 0.292
-offset_left = 443.12
-offset_top = 198.32
-offset_right = 887.12
-offset_bottom = 252.32
-grow_horizontal = 2
-grow_vertical = 2
-text = "By CSQRB"
-label_settings = SubResource("LabelSettings_otlk0")
-horizontal_alignment = 1
-
 [node name="Credits2" type="Label" parent="Text"]
 layout_mode = 1
 anchors_preset = -1
@@ -137,6 +120,23 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Thanks to my AWESOME contributors on GitHub:
 - maxthetomas	"
+label_settings = SubResource("LabelSettings_otlk0")
+
+[node name="Credits3" type="Label" parent="Text"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.597
+anchor_top = 0.292
+anchor_right = 0.597
+anchor_bottom = 0.292
+offset_left = 788.12
+offset_top = 12.32
+offset_right = 1390.12
+offset_bottom = 86.32
+grow_horizontal = 2
+grow_vertical = 2
+text = "metnal supprot: 
+- iller_saver"
 label_settings = SubResource("LabelSettings_otlk0")
 
 [node name="Controls" type="Label" parent="Text"]
