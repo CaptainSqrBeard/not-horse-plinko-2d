@@ -1,17 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://ogdflnharyqr"]
 
-[ext_resource type="Texture2D" uid="uid://was3a2u8p4f7" path="res://Resources/Images/start_platform.png" id="1_2utss"]
+[ext_resource type="Texture2D" uid="uid://buss6fmkdpx6y" path="res://Resources/Images/heh.png" id="1_8o7a2"]
 [ext_resource type="Texture2D" uid="uid://ccl5xlhll4gd1" path="res://Resources/Images/rocket.png" id="2_0lhmn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dt8wo"]
-size = Vector2(140, 56)
+size = Vector2(696, 56)
 
 [node name="StartPlatform" type="Node2D"]
 texture_filter = 1
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(4, 4)
-texture = ExtResource("1_2utss")
+position = Vector2(8, -8)
+scale = Vector2(4, 0.3)
+texture = ExtResource("1_8o7a2")
 
 [node name="Spawnpoint" type="Node2D" parent="."]
 position = Vector2(-2, -66)
@@ -28,6 +29,6 @@ texture = ExtResource("2_0lhmn")
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(2, -4)
+position = Vector2(12, -4)
 shape = SubResource("RectangleShape2D_dt8wo")
 debug_color = Color(1, 0, 0, 0.419608)

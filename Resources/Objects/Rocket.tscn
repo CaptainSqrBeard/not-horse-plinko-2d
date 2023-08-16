@@ -71,7 +71,7 @@ Torque = 5.0
 position = Vector2(0, 26)
 script = ExtResource("3_vp3o8")
 Body = NodePath("../../..")
-Force = 1500.0
+Force = 5620.0
 
 [node name="DeathParticles" type="GPUParticles2D" parent="Destroyable"]
 position = Vector2(0, -4)

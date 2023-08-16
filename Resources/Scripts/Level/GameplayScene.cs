@@ -6,7 +6,7 @@ public partial class GameplayScene : Node
 	EventBus _eventBus;
 
 	public override void _Ready()
-    {
+	{
 		_eventBus = GetNode<EventBus>("/root/EventBus");
 		_eventBus.EmitSignal(EventBus.SignalName.OnGameplayStart);
 
